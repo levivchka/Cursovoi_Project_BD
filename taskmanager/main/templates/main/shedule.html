@@ -1,12 +1,194 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap&subset=cyrillic" rel="stylesheet">
+    <title>Расписание</title>
+    <style>
+        
+    /* Основные стили */
+    h1, h2, h3 {
+        font-family: 'Playfair Display', serif;
+        text-align: center; /* Центрируем заголовки */
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background-color: #f5f5f5;
+        color: #333;
+        text-align: center; /* Центрируем весь текст */
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Стили для контейнера с кнопками */
+    .schedule-tools {
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .tool-button {
+        background-color: #e47eca;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .tool-button:hover {
+        background-color: #d06bb6;
+        transform: scale(1.05);
+    }
+
+    /* Стили таблицы */
+    table {
+        margin: 20px auto; /* Центрирование таблицы */
+        width: 80%;
+        border-collapse: collapse;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        background-color: white;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        text-align: center; /* Выравнивание текста в ячейках */
+    }
+
+    th {
+        background-color:#333539;
+        color: white;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.3s;
+    }
+
+    /* Кнопка "Назад" */
+    .back-button-container {
+        margin: 20px;
+    }
+
+    .back-button {
+        margin-top: 20px;
+        background-color: #e47eca;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .back-button:hover {
+        background-color: #d06bb6;
+        transform: scale(1.05);
+    }
+
+    /* Футер */
+    .footer {
+        background: #333539;
+        color: white;
+        padding: 3rem 0;
+        text-align: center;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+
+    .footer-column h3 {
+        color: #e5e7eb;
+        margin-bottom: 1rem;
+    }
+
+    .footer-column ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-column ul li {
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-column ul li a {
+        color: #9ca3af;
+        text-decoration: none;
+    }
+
+    .footer-column ul li a:hover {
+        color: white;
+    }
+
+    .copyright {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid #1e2127;
+        margin-top: 2rem;
+        color: #e1c3dc;
+    }
+
+    /* Анимация плавного появления */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Адаптивность */
+    @media screen and (max-width: 768px) {
+        table {
+            display: block;
+            overflow-x: auto;
+        }
+
+        th, td {
+            padding: 8px 10px;
+        }
+
+        .schedule-tools {
+            flex-direction: column;
+        }
+    }
+</style>
+
+    </style>
 </head>
 <body>
+    <h2 class="section-title">Планировщик расписания</h2>
+            <div class="schedule-tools">
+                <button class="tool-button primary-button">Сгенерировать расписание</button>
+                <button class="tool-button secondary-button">Импорт данных</button>
+            </div>
     <table border="1">
         <tr>
             <th>Фамилия</th>
@@ -18,7 +200,7 @@
             <th>Статус кабинета</th>
             <th>Должность</th>
         </tr>
-        {% for shedule in shedules %}
+        {% for shedule in schedule_list %}
         <tr>
             <td>{{ shedule.фамилия }}</td>
             <td>{{ shedule.имя }}</td>
@@ -31,7 +213,39 @@
         </tr>
         {% endfor %}
     </table>
+    <div class="back-button-container">
+        <button onclick="history.back()" class="tool-button back-button">← Вернуться назад</button>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>О клинике</h3>
+                <ul>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Лицензии</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Услуги</h3>
+                <ul>
+                    <li><a href="#">Рентгенография</a></li>
+                    <li><a href="#">МРТ</a></li>
+                    <li><a href="#">КТ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Пациентам</h3>
+                <ul>
+                    <li><a href="#">Запись на прием</a></li>
+                    <li><a href="#">Цены</a></li>
+                    <li><a href="#">Подготовка к исследованиям</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Клиника Маша и Вика - здоровый выбор! Все права защищены.
+        </div>
+    </footer>
 </body>
 </html>
-<!--                         <td>Нейрорадиология, Торакальная радиология</td>   
- -->
