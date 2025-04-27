@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание врачей-рентгенологов</title><!-- templates/base.html -->
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Система планирования расписания</title>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap&subset=cyrillic" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    
+</body>
+    <section class="schedule-builder">
+        <div class="container">
+            <h2 class="section-title">Планировщик расписания</h2>
+            <div class="schedule-tools">
+                <button class="tool-button primary-button">Сгенерировать расписание</button>
+                <button class="tool-button secondary-button">Импорт данных</button>
+            </div>
+            <table class="data-table"> {{ title }}
+                {% for el in tasks %}
+                <div class="alert-warning mt-2">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Внимание!</strong> {{ el }}.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div> 
+                {% endfor %}
+                <thead>
+                    <tr>
+                        <th>Врач</th>
+                        <th>Должность</th>
+                        <th>Компетенции</th>
+                        <th>График работы</th>
+                        <th>Нагрузка</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Жирова М.</td>
+                        <td>КТ, МРТ</td>
+                        <td>Нейрорадиология, Торакальная радиология</td>
+                        <td>2/2</td>
+                        <td>85%</td>
+                        <td>
+                            <button class="tool-button secondary-button">Редактировать</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Сивова М.</td>
+                        <td>МРТ, Рентген</td>
+                        <td>Абдоминальная радиология</td>
+                        <td>5/2</td>
+                        <td>78%</td>
+                        <td>
+                            <button class="tool-button secondary-button">Редактировать</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="back-button-container">
+            <button onclick="history.back()" class="tool-button back-button">← Вернуться назад</button>
+        </div>
+    </section>
+</body>
+</html>
